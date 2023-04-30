@@ -34,7 +34,8 @@ build:
     paths:
       - app-release.apk
   only:
-    - main
+    - AndalibNew
   except:
     - schedules
     - triggers
+
