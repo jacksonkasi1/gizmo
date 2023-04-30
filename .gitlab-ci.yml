@@ -1,22 +1,40 @@
-image: node:alpine
-
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    # - .npm
-    # or with yarn:
-    - .yarn
-
 stages:
   - build
 
-before_script:
-#   - npm ci --cache .npm
-  # or with yarn:
-  - yarn install --cache-folder .yarn
+variables:
+  EXPO_CLI_USERNAME: ${{ secrets.EXPO_CLI_USERNAME }}
+  EXPO_CLI_PASSWORD: ${{ secrets.EXPO_CLI_PASSWORD }}
+  EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
-eas-build:
+build:
   stage: build
+  image:
+    name: node:16.13.1
+    entrypoint: [""]
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+      - .yarn/cache/
   script:
-    - apk add --no-cache bash
-    - npx eas-cli build --platform all --non-interactive
+    - yarn install
+    - yarn add expo
+    - npm install -g eas-cli
+    - npm install -g expo-cli
+    - npx expo login -u $EXPO_CLI_USERNAME -p $EXPO_CLI_PASSWORD
+    - expo login --non-interactive --username $EXPO_TOKEN
+    - npx expo install
+    - npm install @react-native-async-storage/async-storage@1.17.11
+    - npm install @react-native-community/datetimepicker@6.7.3
+    - npx expo install @react-native-community/netinfo@9.3.7 expo-auth-session@~4.0.3 expo-av@~13.2.1 expo-crypto@~12.2.1 expo-document-picker@~11.2.2 expo-file-system@~15.2.2 expo-font@~11.1.1 expo-image-picker@~14.1.1 expo-linear-gradient@~12.1.2 expo-notifications@~0.18.1 expo-video-thumbnails@~7.2.1 expo-web-browser@~12.1.1 react@18.2.0 react-native@0.71.7 react-native-gesture-handler@~2.9.0 react-native-pager-view@6.1.2 react-native-reanimated@~2.14.4 react-native-safe-area-context@4.5.0 react-native-screens@~3.20.0
+    - npx expo-doctor || true
+    - npx eas build --profile preview --platform android
+    - mv build/app/outputs/apk/release/app-release.apk app-release.apk
+  artifacts:
+    paths:
+      - app-release.apk
+  only:
+    - main
+  except:
+    - schedules
+    - triggers
