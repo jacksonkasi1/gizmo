@@ -51,5 +51,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: 🎉 Build APK
+        run: |
+          npx expo doctor
+          eas build --profile preview --platform android
+
+
       - name: Publish build
         run: eas build --platform android --profile preview 
