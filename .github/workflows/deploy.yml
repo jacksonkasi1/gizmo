@@ -47,7 +47,7 @@ jobs:
         if: success()
 
       - name: 🎉 Build APK
-        run: eas build --profile preview --platform android
+        run: npx eas build --profile preview --platform android
         if: success()
 
       - name: 📦 Upload APK
