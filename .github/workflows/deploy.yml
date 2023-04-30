@@ -32,13 +32,8 @@ jobs:
       - name: 📦 Install expo
         run: yarn add expo
 
-      - name: ⚙️ upgrade deb
-        run:  npx expo install --check
-
-      # - name: 🧩 install specific version
-      #   run: |
-      #     npm install @expo/config-plugins@6.0.0
-
+      - name: ⚙️ Upgrade dependencies
+        run: npx expo install
 
       - name: 🎉 Run expo-doctor
         run: npx expo-doctor
