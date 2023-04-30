@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "scheme": "gizmoscheme",
+    "name": "gizmo",
+    "slug": "gizmo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/testIcon.png",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "y"
+    },
+    "android": {
+      "icon": "./assets/appIcon.png",
+      "package": "com.tayyab_gondal.gizmo",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/appIcon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "71d8614a-b3e2-4c00-8a70-c38558c4e9fb"
+      }
+    },
+    "owner": "towhidul"
+  }
+}

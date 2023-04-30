@@ -1,0 +1,10 @@
+workflows:
+  build:
+    scripts:
+      - yarn install
+      - npm install -g eas-cli
+      - yarn global add expo-cli
+      - expo login -u jackson_kasi -p 1855
+      - eas build --profile preview --platform android
+    artifacts:
+      - build/outputs/apk/*

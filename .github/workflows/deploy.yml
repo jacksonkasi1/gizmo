@@ -1,0 +1,55 @@
+name: 📱 Gizmo Mobile App Build to Production
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  EXPO_CLI_USERNAME: ${{ secrets.EXPO_CLI_USERNAME }}
+  EXPO_CLI_PASSWORD: ${{ secrets.EXPO_CLI_PASSWORD }}
+
+jobs:
+  build:
+    name: 🍎 macos-latest or 🌱 ubuntu-latest
+    runs-on: macos-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v2
+
+      - name: 🎉 Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.13.10
+          cache: yarn
+
+      - name: 📦 Install dependencies
+        run: yarn install
+
+      - name: 🚪 Log in to Expo
+        run: npx expo login -u $EXPO_CLI_USERNAME -p $EXPO_CLI_PASSWORD
+
+      - name: 🚀 Build Android app
+        run: expo build:android 
+
+      - name: 🐳 Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: 🎉 Build APK
+        run: |
+          npx expo doctor
+          eas build --profile preview --platform android
+
+      - name: test job
+        run:
+          expo build:android --type apk --no-publish
+
+      - name: 📦 Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: build/app/outputs/apk/release/app-release.apk
+      
+      
+
+

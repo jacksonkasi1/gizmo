@@ -1,0 +1,23 @@
+workflows:
+  version: 2
+  build-android:
+    name: Build Android
+    environment:
+      node: "16.x"
+    scripts:
+      - yarn install
+      - yarn global add expo-cli
+      - expo build:android --non-interactive --release-channel=prod --no-publish --no-wait --type app-bundle
+    artifacts:
+      - build/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - jacksonkasipeacock@gmail.com
+        notify:
+          success: true
+          failure: true
+      expo:
+        api_key: ${{ secrets.EXPO_TOKEN }}
+        release_channel: prod
+        notify: true
