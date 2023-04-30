@@ -32,9 +32,11 @@ jobs:
       - name: 📦 Install expo
         run: yarn add expo
 
+      - name: 🎉 Run expo-doctor
+        run: npx expo-doctor
+
       - name: 🎉 Build APK
         run: |
-          npx expo doctor
           eas build --profile preview --platform android
 
       - name: test job

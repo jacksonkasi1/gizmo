@@ -51,9 +51,9 @@ jobs:
       
       - name: 📦 Install expo
         run: yarn add expo
-
-      - name: Check dependencies
-        run: npx expo doctor
+      
+      - name: 🎉 Run expo-doctor
+        run: npx expo-doctor
 
       - name: 🎉 Build APK
         run: |
