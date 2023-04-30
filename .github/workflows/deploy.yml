@@ -20,7 +20,7 @@ jobs:
       - name: 🎉 Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 18.13.10
+          node-version: 16.0.0
           cache: yarn
 
       - name: 📦 Install dependencies
