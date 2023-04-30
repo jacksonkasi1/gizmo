@@ -30,9 +30,6 @@ jobs:
         run: npx expo login -u ${{ secrets.EXPO_CLI_USERNAME }} -p ${{ secrets.EXPO_CLI_PASSWORD }}
 
 
-      - name: 🚀 Build Android app
-        run: expo build:android 
-
       - name: 🐳 Set up Docker
         uses: docker/setup-buildx-action@v1
 
