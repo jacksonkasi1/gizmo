@@ -20,7 +20,7 @@ jobs:
       - name: 🎉 Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16.0.0
+          node-version: 16.13.1
           cache: yarn
 
       - name: 📦 Install dependencies
@@ -28,11 +28,11 @@ jobs:
 
       - name: 🚪 Log in to Expo
         run: npx expo login -u ${{ secrets.EXPO_CLI_USERNAME }} -p ${{ secrets.EXPO_CLI_PASSWORD }}
-        if: ${{ success() }}
+        if: success()
 
       - name: 📦 Install expo
         run: yarn add expo
-        if: ${{ success() }}
+        if: success()
 
       - name: ⚙️ Upgrade dependencies
         run: |
@@ -40,27 +40,19 @@ jobs:
           npm install @react-native-async-storage/async-storage@1.17.11
           npm install @react-native-community/datetimepicker@6.7.3
           npx expo install @react-native-community/netinfo@9.3.7 expo-auth-session@~4.0.3 expo-av@~13.2.1 expo-crypto@~12.2.1 expo-document-picker@~11.2.2 expo-file-system@~15.2.2 expo-font@~11.1.1 expo-image-picker@~14.1.1 expo-linear-gradient@~12.1.2 expo-notifications@~0.18.1 expo-video-thumbnails@~7.2.1 expo-web-browser@~12.1.1 react@18.2.0 react-native@0.71.7 react-native-gesture-handler@~2.9.0 react-native-pager-view@6.1.2 react-native-reanimated@~2.14.4 react-native-safe-area-context@4.5.0 react-native-screens@~3.20.0
-        if: ${{ success() }}
+        if: success()
 
       - name: 🎉 Run expo-doctor
-        run: |
-          npx expo-doctor
-          continue-on-error: true
-        if: ${{ success() }}
+        run: npx expo-doctor || true
+        if: success()
 
       - name: 🎉 Build APK
-        run: |
-          eas build --profile preview --platform android
-        if: ${{ success() }}
-
-      - name: test job
-        run:
-          expo build:android --type apk --no-publish
-        if: ${{ success() }}
+        run: eas build --profile preview --platform android
+        if: success()
 
       - name: 📦 Upload APK
         uses: actions/upload-artifact@v2
         with:
           name: app-release.apk
           path: build/app/outputs/apk/release/app-release.apk
-        if: ${{ success() }}
+        if: success()
